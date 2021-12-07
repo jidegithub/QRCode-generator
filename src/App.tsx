@@ -14,7 +14,7 @@ function App() {
   const [printAllAddresses, setPrintAllAddresses] = useState<boolean>(false)
   const [encodedData, setEncodedData] = useState<string[]>([])
   const [showQRCode, setShowQRCode] = useState<boolean>(false)
-  const [qrCodeSize, setQRCodeSize] = useState<number>(290)
+  // const [qrCodeSize, setQRCodeSize] = useState<number>(290)
   
   useEffect(() => {
     scrollToBottom()
@@ -117,7 +117,7 @@ function App() {
       </form>
       
       <div className="qr-code-container" ref={componentRef}>
-        {showQRCode ? encodedData.map((data, idx) => <QRCodeGenerator key={idx} data={data} size={qrCodeSize}/>) : null}
+        {showQRCode ? encodedData.map((data, idx) => <QRCodeGenerator key={idx} data={data} size={290}/>) : null}
       </div>
       {showQRCode ? <button ref={buttonRef} onClick={handlePrint}>print</button> : null}
     </div>
