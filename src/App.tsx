@@ -53,12 +53,12 @@ function App() {
     generateQRCode()
     setShowQRCode(true)
     scrollToBottom()
-    setQRCodeSize(1270)
+    setQRCodeSize(1280)
   }
 
   const generateQRCode = () => {
     if(printAllAddresses){
-      return setEncodedData(generateSequence(20).flat())
+      return setEncodedData(generateSequence(10).flat())
     }
     return setEncodedData([JSON.stringify(`${aisle + ':' + rack + ':' + level}`)])
   }
@@ -98,9 +98,9 @@ function App() {
       </header>
       <form onSubmit={submitHandler}>
         <div className="select-boxes">
-          <TextInput value={aisle} name='aisle' placeholder="aisle" onChange={handleChange} />
-          <TextInput value={rack} name='rack' type='number' placeholder="rack" onChange={handleChange} />
-          <TextInput value={level} name='level' placeholder="level" onChange={handleChange} />
+          <TextInput value={aisle} name='aisle' placeholder="aisle" onChange={handleChange} maxLength={1} pattern="[A-Z]{1}" />
+          <TextInput value={rack} name='rack' type='number' placeholder="rack" onChange={handleChange} pattern="[0-9]{1,2}" />
+          <TextInput value={level} name='level' placeholder="level" onChange={handleChange} pattern="[i]{1,3}" />
         </div>
         
         <div className="form-group">

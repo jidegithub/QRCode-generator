@@ -212,5 +212,18 @@ select::-ms-expand {
   color: black;
 }
 
-@media print { html, body { height: initial !important; overflow: initial !important; }}
+@media print { html, body { 
+  height: initial !important; 
+  overflow: auto !important; 
+
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 15px;
+  font-size: 14px;
+  line-height: 18px;
+}}
 
