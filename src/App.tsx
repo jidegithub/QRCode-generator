@@ -53,23 +53,20 @@ function App() {
     generateQRCode()
     setShowQRCode(true)
     scrollToBottom()
-    // setQRCodeSize(1270)
   }
 
   const generateQRCode = () => {
     if(printAllAddresses){
-      return setEncodedData(generateSequence(10).flat())
+      return setEncodedData(generateSequence(21).flat())
     }
     return setEncodedData([JSON.stringify(`${aisle + ':' + rack + ':' + level}`)])
   }
 
   const generateSequence = (quantity: number) => (
-    Array.apply(0, Array(quantity)).map(function(_, idx) { return `${aisle}:${idx}` }).map((item, i, originarray) => {
+    Array.apply(0, Array(quantity)).map(function(_, idx) { return `${aisle}:${idx}` }).map((item) => {
       const temp = []
       const first =  item + ':i'
       temp.push(first) 
-      const second = originarray[i] + ':ii'
-      temp.push(second)
       return temp;
     })
   )
