@@ -53,7 +53,7 @@ function App() {
     generateQRCode()
     setShowQRCode(true)
     scrollToBottom()
-    setQRCodeSize(1280)
+    // setQRCodeSize(1270)
   }
 
   const generateQRCode = () => {
