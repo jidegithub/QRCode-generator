@@ -1,20 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 type TextInputProps = {
   value: string
+  placeholder?: string
+  name: string
+  type?: string
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function TextInput({value}: TextInputProps) {
-  const [, setInput] = useState(value)
-  
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault()
-    setInput(value)
-  }
+export default function TextInput({value, placeholder='type here', name, onChange, type='text'}: TextInputProps) {
 
   return (
     <div>
-      <input type='text' className='form-control' value={value} placeholder='Write Here' onChange={handleChange}/>
+      <input name={name} type={type} className='form-control' value={value} placeholder={placeholder} onChange={onChange}/>
       <h1>{value !== '' ? value + ": " : ''}</h1>
     </div>
   )

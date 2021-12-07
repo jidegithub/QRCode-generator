@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import TextInput from './TextInput';
-import SelectInput from './SelectInput';
 import QRCodeGenerator from './QRCodeGenerator';
 import { useReactToPrint } from "react-to-print";
 
@@ -33,18 +32,19 @@ function App() {
     scrollToBottom()
   }, [showQRCode])
 
-  const processOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault()
+    const { name, value } = event.target;
     let change:string
-    switch (event.target.name) {
+    switch (name) {
       case 'aisle':
-        setAisle(event.target.value)
+        setAisle(value.toUpperCase())
         break;
       case 'rack':
-        setRack(event.target.value)
+        setRack(value)
         break;
       case 'level':
-        setLevel(event.target.value)
+        setLevel(value)
         break;
       default:
         change= "unknown"
@@ -92,15 +92,9 @@ function App() {
       </header>
       <form onSubmit={submitHandler}>
         <div className="select-boxes">
-          <SelectInput options={['A', 'B', 'C']} name='aisle' onSelect={processOnChange}/>
-          <SelectInput options={['1', '2', '3']} name='rack' onSelect={processOnChange}/>
-          <SelectInput options={['i', 'ii']} name='level' onSelect={processOnChange}/>
-        </div>
-
-        <div className="select-boxes">
-          <TextInput value={aisle}/>
-          <TextInput value={rack}/>
-          <TextInput value={level}/>
+          <TextInput value={aisle} name='aisle' placeholder="aisle" onChange={handleChange} />
+          <TextInput value={rack} name='rack' type='number' placeholder="rack" onChange={handleChange} />
+          <TextInput value={level} name='level' placeholder="level" onChange={handleChange} />
         </div>
         
         <div className="form-group">
@@ -110,7 +104,7 @@ function App() {
         
         <div className="form-group">
           <input type="radio" checked={printAllRack} onChange={toggleCheck} name="printAllRack" id="allrack"/>
-          <label htmlFor="allrack">Print all address for this aisle</label>
+          <label htmlFor="allrack">Print all addresses for this aisle</label>
         </div>
         
         <input type='submit' value='submit' />
