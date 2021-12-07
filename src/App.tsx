@@ -40,8 +40,10 @@ function App() {
     }
   }
 
-  const toggleCheck = () => {
-    setPrintAllAddresses(!printAllAddresses)
+  const onToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.currentTarget.value === 'true' ? true : false;
+    console.log('handle', isChecked);
+    setPrintAllAddresses(isChecked)
     setShowQRCode(false)
     setEncodedData([])
   }
@@ -51,13 +53,12 @@ function App() {
     generateQRCode()
     setShowQRCode(true)
     scrollToBottom()
-    // setQRCodeSize(1270)
+    setQRCodeSize(1270)
   }
 
   const generateQRCode = () => {
-    if(!printAllAddresses){
-      setEncodedData(generateSequence(20).flat())
-      console.log(encodedData)
+    if(printAllAddresses){
+      return setEncodedData(generateSequence(20).flat())
     }
     return setEncodedData([JSON.stringify(`${aisle + ':' + rack + ':' + level}`)])
   }
@@ -103,13 +104,13 @@ function App() {
         </div>
         
         <div className="form-group">
-          <input type="radio" defaultChecked onChange={toggleCheck} name="printAllAddresses" id="levelsonly"/>
-          <label htmlFor="levelsonly">Print only this address</label>
+          <input type="radio" checked={printAllAddresses === false} value='false' onChange={onToggle}  name="printAllAddresses" id="single"/>
+          <label htmlFor="single">Print only this address</label>
         </div>
         
         <div className="form-group">
-          <input type="radio" checked={printAllAddresses} onChange={toggleCheck} name="printAllAddresses" id="allrack"/>
-          <label htmlFor="allrack">Print all addresses for this aisle</label>
+          <input type="radio" checked={printAllAddresses === true} value='true' onChange={onToggle} name="printAllAddresses" id="multiple"/>
+          <label htmlFor="multiple">Print all addresses for this aisle</label>
         </div>
         
         {!showQRCode ? <input type='submit' value='submit' /> : null}

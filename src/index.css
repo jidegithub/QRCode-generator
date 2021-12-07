@@ -212,3 +212,5 @@ select::-ms-expand {
   color: black;
 }
 
+@media print { html, body { height: initial !important; overflow: initial !important; }}
+
