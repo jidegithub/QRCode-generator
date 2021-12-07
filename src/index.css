@@ -206,8 +206,9 @@ select::-ms-expand {
   background-color: white;
   margin-bottom: 1.5rem;
 }
-.qr-code-box > h4 {
+.qr-code-box > h1 {
   display: flex;
   justify-content: center;
+  color: black;
 }
 

@@ -7,26 +7,14 @@ function App() {
   const componentRef = useRef(null)
   const buttonRef = useRef<null | HTMLButtonElement>(null)
 
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-
-  const scrollToBottom = () => {
-    if(buttonRef.current){
-      buttonRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-        inline: 'nearest'
-      })
-    }
-  }
 
   const [aisle, setAisle] = useState<string>('')
   const [rack, setRack] = useState<string>('')
   const [level, setLevel] = useState<string>('')
-  const [printAllRack, setPrintAllRack] = useState<boolean>(false)
+  const [printAllAddresses, setPrintAllAddresses] = useState<boolean>(false)
   const [encodedData, setEncodedData] = useState<string[]>([])
   const [showQRCode, setShowQRCode] = useState<boolean>(false)
+  const [qrCodeSize, setQRCodeSize] = useState<number>(290)
   
   useEffect(() => {
     scrollToBottom()
@@ -53,7 +41,7 @@ function App() {
   }
 
   const toggleCheck = () => {
-    setPrintAllRack(!printAllRack)
+    setPrintAllAddresses(!printAllAddresses)
     setShowQRCode(false)
     setEncodedData([])
   }
@@ -63,11 +51,13 @@ function App() {
     generateQRCode()
     setShowQRCode(true)
     scrollToBottom()
+    // setQRCodeSize(1270)
   }
 
   const generateQRCode = () => {
-    if(printAllRack){
+    if(!printAllAddresses){
       setEncodedData(generateSequence(20).flat())
+      console.log(encodedData)
     }
     return setEncodedData([JSON.stringify(`${aisle + ':' + rack + ':' + level}`)])
   }
@@ -82,6 +72,21 @@ function App() {
       return temp;
     })
   )
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    // onBeforePrint: () => setQRCodeSize(1290)
+  });
+
+  const scrollToBottom = () => {
+    if(buttonRef.current){
+      buttonRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest'
+      })
+    }
+  }
 
   return (
     <div className="App">
@@ -98,20 +103,20 @@ function App() {
         </div>
         
         <div className="form-group">
-          <input type="radio" defaultChecked onChange={toggleCheck} name="printAllRack" id="levelsonly"/>
+          <input type="radio" defaultChecked onChange={toggleCheck} name="printAllAddresses" id="levelsonly"/>
           <label htmlFor="levelsonly">Print only this address</label>
         </div>
         
         <div className="form-group">
-          <input type="radio" checked={printAllRack} onChange={toggleCheck} name="printAllRack" id="allrack"/>
+          <input type="radio" checked={printAllAddresses} onChange={toggleCheck} name="printAllAddresses" id="allrack"/>
           <label htmlFor="allrack">Print all addresses for this aisle</label>
         </div>
         
-        <input type='submit' value='submit' />
+        {!showQRCode ? <input type='submit' value='submit' /> : null}
       </form>
       
       <div className="qr-code-container" ref={componentRef}>
-        {showQRCode ? encodedData.map((data, idx) => <QRCodeGenerator key={idx} data={data}/>) : null}
+        {showQRCode ? encodedData.map((data, idx) => <QRCodeGenerator key={idx} data={data} size={qrCodeSize}/>) : null}
       </div>
       {showQRCode ? <button ref={buttonRef} onClick={handlePrint}>print</button> : null}
     </div>
