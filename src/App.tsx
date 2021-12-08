@@ -42,7 +42,6 @@ function App() {
 
   const onToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.currentTarget.value === 'true' ? true : false;
-    console.log('handle', isChecked);
     setPrintAllAddresses(isChecked)
     setShowQRCode(false)
     setEncodedData([])
