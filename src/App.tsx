@@ -61,14 +61,16 @@ function App() {
     return setEncodedData([JSON.stringify(`${aisle + ':' + rack + ':' + level}`)])
   }
 
-  const generateSequence = (quantity: number) => (
-    Array.apply(0, Array(quantity)).map(function(_, idx) { return `${aisle}:${idx}` }).map((item) => {
+  const generateSequence = (quantity: number) => {
+    const sequence = Array.apply(0, Array(quantity)).map(function(_, idx) { return `${aisle}:${idx}` }).map((item) => {
       const temp = []
       const first =  item + ':i'
-      temp.push(first) 
+      temp.push(first)
       return temp;
     })
-  )
+    delete sequence[0]
+    return sequence.filter(items => !!items)
+  }
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
